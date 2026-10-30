@@ -1,6 +1,6 @@
-// toggle.js: hand Magic Keyboard + Trackpad between two Macs.
+// handoff.js: hand Magic Keyboard + Trackpad between two Macs.
 // Run the same script on both Macs:
-//   osascript -l JavaScript ~/scripts/toggle.js
+//   osascript -l JavaScript ~/scripts/handoff.js
 // If this Mac has the devices, it releases them (and forgets the pairing).
 // If it doesn't, it takes them (re-pairing over Bluetooth, no cable).
 
@@ -19,7 +19,14 @@ const app = Application.currentApplication();
 app.includeStandardAdditions = true;
 
 function notify(msg) {
-  try { app.displayNotification(msg, { withTitle: 'Peripheral Switch' }); } catch (e) {}
+  try { app.displayNotification(msg, { withTitle: 'Magic Handoff' }); } catch (e) {}
+}
+
+// Turns ['Keyboard', 'Trackpad', 'Mouse'] into "keyboard, trackpad, and mouse".
+function listNames(names) {
+  const n = names.map(s => s.toLowerCase());
+  if (n.length <= 2) return n.join(' and ');
+  return n.slice(0, -1).join(', ') + ', and ' + n[n.length - 1];
 }
 
 function getDevice(addr) {
@@ -80,12 +87,14 @@ function connect(dev) {
 }
 
 function release() {
-  for (const addr of Object.values(DEVICES)) {
+  const released = [];
+  for (const [name, addr] of Object.entries(DEVICES)) {
     const dev = getDevice(addr);
     if (!dev || !dev.isConnected) continue;
     if (!forget(dev)) dev.closeConnection;
+    released.push(name);
   }
-  notify('Released keyboard and trackpad');
+  notify('Released ' + listNames(released));
 }
 
 function takeOne(addr) {
@@ -111,7 +120,7 @@ function take() {
   }
   notify(failed.length
     ? 'Could not connect: ' + failed.join(', ') + '. Press a key or click it to wake it, then try again.'
-    : 'Took keyboard and trackpad');
+    : 'Took ' + listNames(Object.keys(DEVICES)));
 }
 
 function run() {

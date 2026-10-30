@@ -47,12 +47,12 @@ Look for the `Address:` line under each device (it looks like `AA:BB:CC:DD:EE:FF
 ### 2. Download the script
 
 ```sh
-mkdir -p ~/scripts && curl -fsSL https://raw.githubusercontent.com/AnthonyFQ14/magic-handoff/main/toggle.js -o ~/scripts/toggle.js
+mkdir -p ~/scripts && curl -fsSL https://raw.githubusercontent.com/AnthonyFQ14/magic-handoff/main/handoff.js -o ~/scripts/handoff.js
 ```
 
 ### 3. Add your addresses
 
-Open `~/scripts/toggle.js` and replace the two placeholder addresses in `DEVICES`:
+Open `~/scripts/handoff.js` and replace the two placeholder addresses in `DEVICES`:
 
 ```js
 const DEVICES = {
@@ -66,7 +66,7 @@ The addresses belong to the devices, not the Macs, so they're the same on both M
 ### 4. Test it from Terminal
 
 ```sh
-osascript -l JavaScript ~/scripts/toggle.js
+osascript -l JavaScript ~/scripts/handoff.js
 ```
 
 ### 5. Bind it to a hotkey with Shortcuts
@@ -75,7 +75,7 @@ osascript -l JavaScript ~/scripts/toggle.js
 2. Create a new shortcut.
 3. Add a **Run Shell Script** action (shell: `zsh`) containing:
    ```sh
-   osascript -l JavaScript ~/scripts/toggle.js
+   osascript -l JavaScript ~/scripts/handoff.js
    ```
 4. Click the **(i) Shortcut Details** button, then **Add Keyboard Shortcut**.
 5. Use the same hotkey on both Macs, for example **Control + Option + Command + B**.
@@ -97,7 +97,7 @@ The Mac taking the devices needs another way to press the hotkey, since the Magi
 ## Troubleshooting
 
 * **"Could not connect"** usually means the other Mac hasn't released the devices yet, or a device fell asleep. Wake it with a key press or click and try again.
-* **Run it from Terminal** (`osascript -l JavaScript ~/scripts/toggle.js`) to see any errors.
+* **Run it from Terminal** (`osascript -l JavaScript ~/scripts/handoff.js`) to see any errors.
 * **If things get stuck,** plug the device into the Mac you want to use with a cable for a few seconds. That resets the pairing.
 
 ## Limitations and caveats
