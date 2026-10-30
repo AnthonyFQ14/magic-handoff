@@ -1,4 +1,4 @@
-# magic-handoff
+# Magic Handoff
 
 Switch an Apple Magic Keyboard and Magic Trackpad (or Magic Mouse) between two Macs with one keyboard shortcut. No apps to install, no cables to swap.
 
